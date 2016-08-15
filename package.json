@@ -1,0 +1,30 @@
+{
+  "name": "swg-js",
+  "version": "1.0.0",
+  "description": "模拟jquery，并提供jq没有的常用js方法",
+  "main": "dev/swg.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunweiguang224/swg-js.git"
+  },
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp build"
+  },
+  "keywords": [
+    "jquery",
+    "swg",
+    "swg-js",
+    "js"
+  ],
+  "author": "swg",
+  "license": "GNU",
+  "dependencies": {
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-stage-0": "^6.5.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^2.0.0"
+  }
+}
