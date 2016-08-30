@@ -1,6 +1,6 @@
 {
   "name": "swg-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "模拟jquery，并提供jq没有的常用js方法",
   "main": "dev/swg.js",
   "repository": {
