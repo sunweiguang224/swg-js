@@ -1301,34 +1301,27 @@
 		 * @param date 日期对象|时间戳数字|时间戳字符串
 		 * @param format 格式化字符串
 		 * @returns {String}
-		 * Demo: swg.dateFormat(new Date(), "yyyy-MM-dd HH:mm:ss:SSS);
+		 * Demo: swg.dateFormat(new Date(), 'yyyy-MM-dd HH:mm:ss SSS');
 		 */
-		dateFormat: function(date, format) {
-			if(date instanceof Date){
-			}else if(typeof date === 'number'){
-				date = new Date(date);
-			}else if(Object.prototype.toString.call(date) === '[object String]'){
-				date = new Date(parseInt(date));
-			}else{
-				return "";
+		dateFormat: function(date, format){
+			date = Object.prototype.toString.call(date) == '[object String]' ? new Date(parseInt(date)) :
+				Object.prototype.toString.call(date) == '[object Number]' ? new Date(date) :
+				date || new Date();
+			format = Object.prototype.toString.call(format) == '[object String]' ? format : 'yyyy-MM-dd hh:mm:ss SSS';
+			var map = {
+				'y': date.getFullYear(),
+				'M': date.getMonth() + 1,
+				'd': date.getDate(),
+				'H': date.getHours(),
+				'm': date.getMinutes(),
+				's': date.getSeconds(),
+				'S': date.getMilliseconds()
+			};
+			for(var key in map){
+				format = format.replace(new RegExp(key + '+'), function(matchValue, index, input){
+					return swg.beforeFillZero(map[key], matchValue.length);
+				});
 			}
-			if(!format){
-				format = "yyyy-MM-dd HH:mm:ss";
-			}
-			var year = new String(date.getFullYear());
-			var month = swg.oneTo2Digits(new String(date.getMonth() + 1));
-			var dat = swg.oneTo2Digits(new String(date.getDate()));
-			var hour = swg.oneTo2Digits(new String(date.getHours()));
-			var minute = swg.oneTo2Digits(new String(date.getMinutes()));
-			var second = swg.oneTo2Digits(new String(date.getSeconds()));
-			var milliSeconds = new String(date.getMilliseconds());
-			format = format.replace(/yyyy/g, year).replace(/yyy/g, year.substr(-3)).replace(/yy/g, year.substr(-2)).replace(/y/g, year.substr(-1));
-			format = format.replace(/MM/g, month).replace(/M/g, month.substr(-1));
-			format = format.replace(/dd/g, dat).replace(/d/g, dat.substr(-1));
-			format = format.replace(/HH/g, hour).replace(/H/g, hour.substr(-1));
-			format = format.replace(/mm/g, minute).replace(/m/g, minute.substr(-1));
-			format = format.replace(/ss/g, second).replace(/s/g, second.substr(-1));
-			format = format.replace(/SSS/g, milliSeconds).replace(/SS/g, month.substr(-2)).replace(/S/g, milliSeconds.substr(-1));
 			return format;
 		},
 		oneTo2Digits: function(num){
@@ -1337,6 +1330,20 @@
 				return "0" + num;
 			}
 			return num;
+		},
+		/**
+		 * 前补0
+		 * @param value {Number|String} 格式化字符串
+		 * @param digit 位数
+		 * @returns {String}
+		 */
+		beforeFillZero: function(value, digit){
+			value = value.toString();
+			var zeroNum = digit - value.length;
+			for(var i=0;i<zeroNum;i++){
+				value = '0' + value;
+			}
+			return value;
 		},
 		/**
 		 * 设置cookie
